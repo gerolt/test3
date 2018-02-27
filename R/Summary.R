@@ -10,21 +10,6 @@ Summary <- function(data){
   }
   Card <- function(x) unique(x) %>% length()
   NofNA <- function(x) is.na(x) %>% sum()
-  GetMode <- function(x, order=1, type='value'){
-    # mode count
-    count_tab <- sort(table(x), decreasing = T)
-    mode_count <- count_tab[order]
-    # mode value
-    value_tab <- names(count_tab)
-    mode_value <- value_tab[order]
-    if(type=='value') {
-      result <- mode_value
-    } else if(type=='count'){
-      result <- mode_count
-    }
-    names(result) <- NULL
-    return(result)
-  }
   # Split
   con <- data[sapply(data, is.number)]
   if(length(con)==0) con$idx <- 1:nrow(con)
@@ -61,6 +46,6 @@ Summary <- function(data){
   names(cat_df) <-
     c('Variable','n', 'Missing', 'Missing.R', 'Cardinality', 'Cardinality.R',
       'Mode1', 'Mode1.C', 'Mode1.R', 'Mode2', 'Mode2.C', 'Mode2.R')
-  invisible(list(Categorical = cat_df, Continuous = con_df))
+  return(list(Categorical = cat_df, Continuous = con_df))
   }
 #yes
