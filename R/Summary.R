@@ -1,51 +1,49 @@
 Summary <- function(data){
-  # Loading Package
-  if(!require(dplyr)){install.packages("devtools");library(dplyr)}
+  # Warning Message
   reserved_words <- c('if', 'else', 'while', 'function', 'for', 'in', 'next',
                       'break',' TRUE', 'FALSE','NULL', 'Inf', 'NaN', 'NA')
-  # Warning Message
-  if(names(data) %in% reserved_words %>% sum != 0){
+  if(sum(names(data) %in% reserved_words) != 0){
     stop('변수명은 예약어로 사용할 수 없습니다.\n 예약어 : if, else, while, function, for, in, next,
          break, TRUE, FALSE, NULL, Inf, NaN, NA')
   }
-  Card <- function(x) unique(x) %>% length()
-  NofNA <- function(x) is.na(x) %>% sum()
+  Card <- function(x) length(unique(x))
+  NofNA <- function(x) sum(is.na(x))
   # Split
   con <- data[sapply(data, is.number)]
-  if(length(con)==0) con$idx <- 1:nrow(con)
+  if(length(con)==0) con$idx_number <- 1:nrow(con)
   cat <- data[!sapply(data, is.number)]
-  if(length(cat)==0) cat$idx <- as.character(1:nrow(cat))
+  if(length(cat)==0) cat$idx_number <- as.character(1:nrow(cat))
   # Continuous
-  countdat <- sapply(con, length) %>% tbl_df()
-  nadat <- sapply(con, NofNA) %>% tbl_df()
-  carddat <- sapply(con, Card) %>% tbl_df()
-  mindat <- sapply(con, min, na.rm=T) %>% tbl_df()
-  maxdat <- sapply(con, max, na.rm=T) %>% tbl_df()
-  mediandat <- sapply(con, median, na.rm=T) %>% tbl_df()
-  meandat <- sapply(con, mean, na.rm=T) %>% tbl_df()
-  q1dat <- sapply(con, quantile, 0.25, na.rm=T) %>% tbl_df()
-  q3dat <- sapply(con, quantile, 0.75, na.rm=T) %>% tbl_df()
-  stddat <- sapply(con, sd, na.rm=T) %>% tbl_df()
+  con_n <- sapply(con, length)
+  con_na <- sapply(con, NofNA)
+  con_card <-sapply(con, Card)
+  con_dat <- data.frame(cbind(
+    names(con), con_n,  con_na,
+    con_na/con_n, con_card, con_card/con_n,
+    sapply(con, min, na.rm=T), sapply(con, max, na.rm=T),
+    sapply(con, median, na.rm=T), sapply(con, mean, na.rm=T),
+    sapply(con, quantile, 0.25, na.rm=T), sapply(con, quantile, 0.75, na.rm=T),
+    sapply(con, sd, na.rm=T)
+  ))
   # Categorical
-  countdf <- sapply(cat, length) %>% tbl_df()
-  nadf <- sapply(cat, NofNA) %>% tbl_df()
-  carddf <- sapply(cat, Card) %>% tbl_df()
-  mode1df <- sapply(cat, GetMode, order=1, type='value') %>% tbl_df()
-  mode1cdf <- sapply(cat, GetMode, order=1, type='count') %>% tbl_df()
-  mode2df <- sapply(cat, GetMode, order=2, type='value') %>% tbl_df()
-  mode2cdf <- sapply(cat, GetMode, order=2, type='count') %>% tbl_df()
-  # result
-  con_df <- cbind(names(con), countdat, nadat, nadat/countdat, carddat, carddat/countdat,
-                  mindat, q1dat, meandat, mediandat, q3dat, maxdat, stddat)
-  cat_df <- cbind(names(cat), countdf, nadf, nadf/countdf, carddf, carddf/countdf,
-                  mode1df, mode1cdf, mode1cdf/countdf,
-                  mode2df, mode2cdf, mode2cdf/countdf)
-  names(con_df) <-
+  cat_n <- sapply(cat, length)
+  cat_na <- sapply(cat, NofNA)
+  cat_card <-sapply(cat, Card)
+  catm1c <- sapply(cat, GetMode, order=1, type='count')
+  catm2c <- sapply(cat, GetMode, order=2, type='count')
+  cat_dat <- data.frame(cbind(
+    names(cat),
+    cat_n, cat_na, cat_na/cat_n, cat_card, cat_card/cat_n,
+    sapply(cat, GetMode, order=1, type='value'),
+    catm1c, catm1c/cat_n,
+    sapply(cat, GetMode, order=2, type='value'),
+    catm2c, catm2c/cat_n
+  ))
+  names(con_dat) <-
     c('Variable','n', 'Missing', 'Missing.R', 'Cardinality', 'Cardinality.R',
       'Minimum', 'Q1', 'Mean', 'Median', 'Q3', 'Maximum', 'Std')
-  names(cat_df) <-
+  names(cat_dat) <-
     c('Variable','n', 'Missing', 'Missing.R', 'Cardinality', 'Cardinality.R',
       'Mode1', 'Mode1.C', 'Mode1.R', 'Mode2', 'Mode2.C', 'Mode2.R')
-  return(list(Categorical = cat_df, Continuous = con_df))
+  return(list(Categorical = cat_dat, Continuous = con_dat))
   }
-#yes
