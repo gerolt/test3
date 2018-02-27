@@ -6,8 +6,9 @@ dashboard <- function(){
   if(!require(plotly)){install.packages("plotly");library(plotly)}
   if(!require(ggplot2)){install.packages("ggplot2");library(ggplot2)}
   if(!require(gmodels)){install.packages("gmodels");library(gmodels)}
+  if(!require(ggmosaic)){install.packages("ggmosaic");library(ggmosaic)}
 
-  # df names
+  # names of data frame
   dfnames <- ls() %>% sapply(get) %>% sapply(is.data.frame)
   dfnames <- names(dfnames[dfnames==T])
 
@@ -208,3 +209,4 @@ dashboard <- function(){
   }
   return(shinyApp(ui, server))
 }
+dashboard()
