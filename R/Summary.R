@@ -1,6 +1,6 @@
 Summary <- function(data){
   # Loading Package
-  #if(!require(dplyr)){install.packages("devtools");library(dplyr)}
+  if(!require(dplyr)){install.packages("devtools");library(dplyr)}
   reserved_words <- c('if', 'else', 'while', 'function', 'for', 'in', 'next',
                       'break',' TRUE', 'FALSE','NULL', 'Inf', 'NaN', 'NA')
   # Warning Message
