@@ -3,8 +3,9 @@ Compare <- function(data,y,by){
   data <- data.table(data)
   data[,
        list(
-         #mean = mean('price'),
-         std = sd(y)
+         mean = mean(get(y)),
+         std = sd(get(y)),
+         length = length(get(y))
        ),
        by = by
        ]
