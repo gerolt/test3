@@ -17,28 +17,28 @@ Summary <- function(data){
   con_n <- sapply(con, length)
   con_na <- sapply(con, NofNA)
   con_card <-sapply(con, Card)
-  con_dat <- data.frame(stringsAsFactors = F,cbind(
+  con_dat <- data.frame(stringsAsFactors = F,
     names(con), con_n,  con_na,
     con_na/con_n, con_card, con_card/con_n,
     sapply(con, min, na.rm=T), sapply(con, max, na.rm=T),
     sapply(con, median, na.rm=T), sapply(con, mean, na.rm=T),
     sapply(con, quantile, 0.25, na.rm=T), sapply(con, quantile, 0.75, na.rm=T),
     sapply(con, sd, na.rm=T)
-  ))
+  )
   # Categorical
   cat_n <- sapply(cat, length)
   cat_na <- sapply(cat, NofNA)
   cat_card <-sapply(cat, Card)
   catm1c <- sapply(cat, GetMode, order=1, type='count')
   catm2c <- sapply(cat, GetMode, order=2, type='count')
-  cat_dat <- data.frame(stringsAsFactors = F,cbind(
+  cat_dat <- data.frame(stringsAsFactors = F,
     names(cat),
     cat_n, cat_na, cat_na/cat_n, cat_card, cat_card/cat_n,
     sapply(cat, GetMode, order=1, type='value'),
     catm1c, catm1c/cat_n,
     sapply(cat, GetMode, order=2, type='value'),
     catm2c, catm2c/cat_n
-  ))
+  )
   names(con_dat) <-
     c('Variable','n', 'Missing', 'Missing.R', 'Cardinality', 'Cardinality.R',
       'Minimum', 'Q1', 'Mean', 'Median', 'Q3', 'Maximum', 'Std')
@@ -46,7 +46,4 @@ Summary <- function(data){
     c('Variable','n', 'Missing', 'Missing.R', 'Cardinality', 'Cardinality.R',
       'Mode1', 'Mode1.C', 'Mode1.R', 'Mode2', 'Mode2.C', 'Mode2.R')
   return(list(Categorical = cat_dat, Continuous = con_dat))
- }
-
-
-
+}
