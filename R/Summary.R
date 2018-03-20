@@ -17,7 +17,7 @@ Summary <- function(data){
   con_n <- sapply(con, length)
   con_na <- sapply(con, NofNA)
   con_card <-sapply(con, Card)
-  con_dat <- data.frame(cbind(
+  con_dat <- data.frame(stringsAsFactors = F,cbind(
     names(con), con_n,  con_na,
     con_na/con_n, con_card, con_card/con_n,
     sapply(con, min, na.rm=T), sapply(con, max, na.rm=T),
@@ -31,7 +31,7 @@ Summary <- function(data){
   cat_card <-sapply(cat, Card)
   catm1c <- sapply(cat, GetMode, order=1, type='count')
   catm2c <- sapply(cat, GetMode, order=2, type='count')
-  cat_dat <- data.frame(cbind(
+  cat_dat <- data.frame(stringsAsFactors = F,cbind(
     names(cat),
     cat_n, cat_na, cat_na/cat_n, cat_card, cat_card/cat_n,
     sapply(cat, GetMode, order=1, type='value'),
@@ -46,7 +46,7 @@ Summary <- function(data){
     c('Variable','n', 'Missing', 'Missing.R', 'Cardinality', 'Cardinality.R',
       'Mode1', 'Mode1.C', 'Mode1.R', 'Mode2', 'Mode2.C', 'Mode2.R')
   return(list(Categorical = cat_dat, Continuous = con_dat))
-  }
+ }
 
 
 
