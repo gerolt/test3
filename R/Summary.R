@@ -46,6 +46,6 @@ Summary <- function(data){
     c('Variable','n', 'Missing', 'Missing.R', 'Cardinality', 'Cardinality.R',
       'FirstMode', 'FirstMode.C', 'FirstMode,R', 'SecondMode', 'SecondMode.C',
       'SecondMode.R')
-  cat_dat$FS.R <- (cat_dat$FirstMode.C + SecondMode.C) / cat_dat$n
+  cat_dat$FS.R <- (cat_dat$FirstMode.C + cat_dat$SecondMode.C) / cat_dat$n
   return(list(Categorical = cat_dat, Continuous = con_dat))
 }
