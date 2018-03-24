@@ -6,7 +6,7 @@ Summary <- function(data){
     stop('변수명은 예약어로 사용할 수 없습니다.\n 예약어 : if, else, while, function, for, in, next,
          break, TRUE, FALSE, NULL, Inf, NaN, NA')
   }
-  Card <- function(x) length(unique(x))
+  Card <- function(x) length(table(x))
   NofNA <- function(x) sum(is.na(x))
   # Split
   con <- data[sapply(data, is.number)]
