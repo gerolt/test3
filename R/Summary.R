@@ -18,6 +18,7 @@ Summary <- function(data){
   con_na <- sapply(con, NofNA)
   con_card <-sapply(con, Card)
   con_dat <- data.frame(
+    stringsAsFactors = F,
     names(con), con_n,  con_na,
     con_na/con_n, con_card, con_card/con_n,
     sapply(con, min, na.rm=T), sapply(con, max, na.rm=T),
@@ -32,6 +33,7 @@ Summary <- function(data){
   catm1c <- sapply(cat, GetMode, order=1, type='count')
   catm2c <- sapply(cat, GetMode, order=2, type='count')
   cat_dat <- data.frame(
+    stringsAsFactors = F,
     names(cat),
     cat_n, cat_na, cat_na/cat_n, cat_card, cat_card/cat_n,
     sapply(cat, GetMode, order=1, type='value'),
