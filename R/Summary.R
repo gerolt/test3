@@ -13,7 +13,7 @@ Summary <- function(data){
   if(length(con)==0) con$idx_number <- 1:nrow(con)
   cat <- data[!sapply(data, is.number)]
   if(length(cat)==0) cat$idx_number <- as.character(1:nrow(cat))
-  # Continuous
+  # Quantitative
   con_n <- sapply(con, length)
   con_na <- sapply(con, NofNA)
   con_card <-sapply(con, Card)
@@ -25,7 +25,7 @@ Summary <- function(data){
     sapply(con, quantile, 0.25, na.rm=T), sapply(con, quantile, 0.75, na.rm=T),
     sapply(con, sd, na.rm=T)
   )
-  # Categorical
+  # Qualitative
   cat_n <- sapply(cat, length)
   cat_na <- sapply(cat, NofNA)
   cat_card <-sapply(cat, Card)
@@ -47,5 +47,5 @@ Summary <- function(data){
       'FirstMode', 'FirstMode.C', 'FirstMode,R', 'SecondMode', 'SecondMode.C',
       'SecondMode.R')
   cat_dat$FS.R <- (cat_dat$FirstMode.C + cat_dat$SecondMode.C) / cat_dat$n
-  return(list(Categorical = cat_dat, Continuous = con_dat))
-}
+  return(list(Qualitative = cat_dat, Quantitative = con_dat))
+  }
