@@ -21,9 +21,9 @@ Summary <- function(data){
     stringsAsFactors = F,
     names(con), con_n,  con_na,
     con_na/con_n, con_card, con_card/con_n,
-    sapply(con, min, na.rm=T), sapply(con, max, na.rm=T),
+    sapply(con, min, na.rm=T), sapply(con, quantile, 0.25, na.rm=T),
     sapply(con, median, na.rm=T), sapply(con, mean, na.rm=T),
-    sapply(con, quantile, 0.25, na.rm=T), sapply(con, quantile, 0.75, na.rm=T),
+    sapply(con, quantile, 0.75, na.rm=T), sapply(con, max, na.rm=T),
     sapply(con, sd, na.rm=T)
   )
   # Qualitative
@@ -50,4 +50,4 @@ Summary <- function(data){
       'SecondMode.R')
   cat_dat$FS.R <- (cat_dat$FirstMode.C + cat_dat$SecondMode.C) / cat_dat$n
   return(list(Qualitative = cat_dat, Quantitative = con_dat))
-  }
+}
