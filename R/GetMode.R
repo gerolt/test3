@@ -3,7 +3,7 @@ GetMode <- function(x, order=1, type='value'){
   count_tab <- sort(table(x), decreasing = T)
   mode_count <- count_tab[order]
   # mode value
-  value_tab <- names(count_tab)
+  value_tab <- ifelse(is.null(value_tab), NA, names(count_tab))
   mode_value <- value_tab[order]
   if(type=='value') {
     result <- mode_value
@@ -13,3 +13,4 @@ GetMode <- function(x, order=1, type='value'){
   names(result) <- NULL
   return(result)
 }
+
